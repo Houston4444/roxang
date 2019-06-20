@@ -1,0 +1,51 @@
+
+
+
+# Choose here the tone of what you edit.
+# diatonic_bender can automaticly  make sfz files for the twelve tones.
+key_tone:A
+
+
+# here choose where goes the note when bended (-x semitones, y semitones)
+A : -4, 3
+A#: -3, 4
+B : -4, 3
+C : -3, 4
+C#: -4, 3
+D : -3, 3
+D#: -4, 2
+E : -4, 3
+F : -3, 4
+F#: -4, 3
+G : -3, 4
+G#: -4, 3
+
+### samples folder, don't set it if samples are in same directory as sfz files.
+samples_folder:samples
+
+key_interval:c0-b9
+
+# all samples to take.
+# There is currently not the possibility to set differents notes, only differents levels of the same note.
+# start with the lower sample.
+sample:ding_01.wav
+sample:ding_02.wav
+sample:ding_03.wav
+sample:ding_04.wav
+sample:ding_05.wav
+sample:ding_06.wav
+sample:ding_07.wav
+sample:ding_08.wav
+sample:ding_09.wav
+sample:ding_10.wav
+sample:ding_11.wav
+sample:ding_12.wav
+
+# output file names, use ${KEY_TONE} if you want one file per tone (12 files).
+sfz_file:roxang_man
+
+
+_____in_all_groups______:
+loop_mode=one_shot
+pitch_keycenter=d3
+________________________.
