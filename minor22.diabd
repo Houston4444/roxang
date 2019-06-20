@@ -1,0 +1,75 @@
+# This file can be used as argument for diatonic_bender for creating SFZ instrument.
+# You can copy/edit this, then simply run:
+# ./diatonic_bender this_file
+
+
+
+# Choose here the tone of what you edit.
+# diatonic_bender can automaticaly make sfz files for the twelve tones.
+KEY_TONE:A
+
+
+# Here choose where goes the note when bent with the pitchwheel(-x semitones, y semitones)
+A : -4, 3
+A#: -3, 4
+B : -4, 3
+C : -3, 4
+C#: -4, 3
+D : -3, 3
+D#: -4, 2
+E : -4, 3
+F : -3, 4
+F#: -4, 3
+G : -3, 4
+G#: -4, 3
+
+
+# output file names, use ${KEY_TONE} if you want one file per tone (12 files).
+SFZ_FILE:roxang_man.sfz
+
+
+# here write sfz properties common to all the instrument.
+# keep an empty line after !!!
+COMMON_PROPERTIES:
+loop_mode=one_shot
+
+
+# samples folder, don't set it if samples are in same directory as sfz files.
+SAMPLES_FOLDER:samples
+
+--------------------------------------------------------------------
+# Interval of keys for samples
+KEY_INTERVAL:c0-b9
+
+# key where samples are not detuned
+PITCH_KEYCENTER:d3
+
+
+# all samples to take in this KEY_INTERVAL.
+# write from the lower to the highest sample.
+# Keep an empty line after the last.
+
+SAMPLES:
+ding_01.wav
+ding_02.wav
+ding_03.wav
+ding_04.wav
+ding_05.wav
+ding_06.wav
+ding_07.wav
+ding_08.wav
+ding_09.wav
+ding_10.wav
+ding_11.wav
+ding_12.wav
+
+
+# Velocity splits between samples
+LEVEL_SPLITS:10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110
+
+# SFZ properties common to this interval
+INTERVAL_PROPERTIES:
+
+
+---------------------------------------------------------------------
+
