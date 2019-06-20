@@ -23,7 +23,7 @@ G#: -4, 3
 ### samples folder, don't set it if samples are in same directory as sfz files.
 samples_folder:samples
 
-key_interval:c0-b9
+key_interval:c0-a4
 
 # all samples to take.
 # There is currently not the possibility to set differents notes, only differents levels of the same note.

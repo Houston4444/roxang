@@ -2,6 +2,8 @@
 
 import sys
 
+note_refs = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+
 class NoteKey():
     def __init__(self, note, octave):
         self.note = note.upper()
@@ -74,8 +76,15 @@ def makeNoteKey(string):
     
     return NoteKey(nnote, int(oct_str))
 
+def noteplus(note, added):
+    for i in range(len(note_refs)):
+        if note.lower() == note_refs[i].lower():
+            return note_refs[(i + added) % 12]
+    else:
+        print("note %s not recognized" % note)
+        sys.exit(1)
+        
 
-note_refs = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 
 if len(sys.argv) <= 1:
     sys.stderr.write("Please use a config file as instrument")
@@ -95,9 +104,6 @@ except:
 key_tone = "A"
 key_interval = (NoteKey("C", 0), NoteKey("G#", 9))
 all_bends = {
-    "A" : (-2, 2),
-    "A#": (-1, 2),
-    "B" : (-2, 1),
     "C" : (-1, 2),
     "C#": (-3, 1),
     "D" : (-2, 2),
@@ -106,7 +112,10 @@ all_bends = {
     "F" : (-1, 2),
     "F#": (-2, 1),
     "G" : (-2, 2),
-    "G#": (-3, 1) }
+    "G#": (-3, 1),
+    "A" : (-2, 2),
+    "A#": (-1, 2),
+    "B" : (-2, 1)}
 samples_folder = ""
 samples = []
 sfz_file = ""
@@ -164,6 +173,9 @@ for line in input_contents.split('\n'):
                     all_bends[note] = (bdown, bup)
                     break
 
+for note_key in key_interval:
+    print(note_key.note, note_key.octave)
+
 level_splits = []
 split_n = len(samples) -1
 for i in range(split_n):
@@ -185,7 +197,7 @@ for n in range(12):
     contents = ""
     
     for bend_group in grouped_bends:
-        contents += "\n\n### bends at %s,%s ###\n" % (bend_group[0][0], bend_group[0][1])
+        contents += "\n\n### bends at %s,%s ###############################\n" % (bend_group[0][0], bend_group[0][1])
         
         for i in range(len(level_splits)+1):
             contents += "\n<group>\n"
