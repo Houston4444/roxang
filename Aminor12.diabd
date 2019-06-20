@@ -1,0 +1,54 @@
+# Choose here the key range of what you edit.
+# diatonic_bender will make sfz files for the twelve tones
+key_range:A
+
+# here choose where goes the note when bended (-x semitones, y semitones)
+A : -2, 2
+A#: -1, 2
+B : -2, 1
+C : -1, 2
+C#: -3, 2
+D : -2, 2
+D#: -3, 1
+E : -2, 1
+F : -1, 2
+F#: -2, 1
+G : -2, 2
+G#: -3, 1
+A : -4, 3
+A#: -3, 4
+B : -4, 3
+C : -3, 4
+C#: -4, 3
+D : -3, 3
+D#: -4, 2
+E : -4, 3
+F : -3, 4
+F#: -4, 3
+G : -3, 4
+G#: -4, 3
+
+# all samples to take.
+# There is currently not the possibility to set differents notes, only differents levels of the same note.
+# start with the lower sample.
+sample:ding_01.wav
+sample:ding_02.wav
+sample:ding_03.wav
+sample:ding_04.wav
+sample:ding_05.wav
+sample:ding_06.wav
+sample:ding_07.wav
+sample:ding_08.wav
+sample:ding_09.wav
+sample:ding_10.wav
+sample:ding_11.wav
+sample:ding_12.wav
+
+# output file names, DO NOT REMOVE ${KEY_RANGE} !!!
+sfz_file:roxang_${KEY_RANGE}minor_11
+
+
+_____in_all_groups______:
+loop_mode=one_shot
+pitch_keycenter=d3
+________________________.

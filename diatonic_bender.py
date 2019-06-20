@@ -305,9 +305,9 @@ for n in range(12):
                     contents += "sample=%s\n" % file_range.samples[i]
                     
                 if i != 0:
-                    contents += "lolevel=%i\n" % file_range.level_splits[i-1]
+                    contents += "lovel=%i\n" % file_range.level_splits[i-1]
                 if i != len(file_range.samples) - 1:
-                    contents += "hilevel=%i\n" % (file_range.level_splits[i] -1)
+                    contents += "hivel=%i\n" % (file_range.level_splits[i] -1)
                 
                 for j in range(9):
                     for note in bend_group[1:]:
@@ -317,7 +317,7 @@ for n in range(12):
     
     if "${KEY_TONE}" in parameters["SFZ_FILE"]:
         file = open(parameters["SFZ_FILE"].replace("${KEY_TONE}", 
-                                                   noteplus(parameters["key_tone"], n)), 'w')
+                                                   noteplus(parameters["KEY_TONE"], n)), 'w')
         file.write(contents)
         file.close()
     else:

@@ -32,10 +32,10 @@ SFZ_FILE:roxang_${KEY_TONE}minor11.sfz
 # keep an empty line after !!!
 COMMON_PROPERTIES:
 loop_mode=one_shot
-
+amp_veltrack=50
 
 # samples folder, don't set it if samples are in same directory as sfz files.
-SAMPLES_FOLDER:samples
+SAMPLES_FOLDER:Samples
 
 --------------------------------------------------------------------
 # Interval of keys for samples
@@ -61,11 +61,10 @@ ding_08.wav
 ding_09.wav
 ding_10.wav
 ding_11.wav
-ding_12.wav
 
 
 # Velocity splits between samples
-LEVEL_SPLITS:10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110
+LEVEL_SPLITS:20, 30, 40, 50, 60, 70, 80, 90, 100, 113
 
 # SFZ properties common to this interval
 INTERVAL_PROPERTIES:
