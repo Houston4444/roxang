@@ -18,54 +18,6 @@ parameters = {"KEY_TONE": "A",
               "SFZ_FILE": "",
               "COMMON_PROPERTIES": ""}
 
-class InputFileRange():
-    def __init__(self, lokey, hikey):
-        self.lokey = lokey
-        self.hikey = hikey
-        self.samples = []
-        self.pitch_keycenter = NoteKey("C", 3)
-        self.level_splits = []
-        self.sfz_properties = ""
-    
-    def setPitchKeycenter(self, note_key):
-        self.pitch_keycenter = note_key
-        
-    def addSample(self, sample):
-        self.samples.append(sample)
-    
-    def stringInterval(self):
-        return "%s-%s" % (self.lokey.toString(), self.hikey.toString())
-        
-    def setLevelSplits(self, string):
-        self.level_splits.clear()
-        
-        all_splits = string.split(',')
-        for split in all_splits:
-            try:
-                int_split = int(split.replace(' ', ''))
-                
-                if not 0 <= int_split <= 127:
-                    break
-                
-                self.level_splits.append(int_split)
-            except:
-                break
-        
-        print(self.level_splits)
-        
-        if len(self.level_splits) +1 != len(self.samples):
-            sys.stderr.write("Number of LEVEL_SPLITS not coherent with number of samples\n" +
-                             "will make automatic linear splits\n")
-            
-            self.level_splits.clear()
-            split_n = len(samples) -1
-            for i in range(split_n):
-                self.level_splits.append(int(128 * (i+1) / (split_n+1) -0.5))
-                
-    def addSfzProperty(self, string):
-        self.sfz_properties += string
-        self.sfz_properties += '\n'
-            
 class NoteKey():
     def __init__(self, note, octave):
         self.note = note.upper()
@@ -108,6 +60,54 @@ class NoteKey():
                 return NoteKey(note, octave)
         else:
             raise BaseException("note %s not in note_refs")
+
+class InputFileRange():
+    def __init__(self, lokey=NoteKey("C", 0), hikey=NoteKey("B", 9)):
+        self.lokey = lokey
+        self.hikey = hikey
+        self.samples = []
+        self.pitch_keycenter = NoteKey("C", 3)
+        self.level_splits = []
+        self.sfz_properties = ""
+    
+    def setPitchKeycenter(self, note_key):
+        self.pitch_keycenter = note_key
+        
+    def addSample(self, sample):
+        self.samples.append(sample)
+    
+    def stringInterval(self):
+        return "%s-%s" % (self.lokey.toString(), self.hikey.toString())
+        
+    def setLevelSplits(self, string):
+        self.level_splits.clear()
+        
+        all_splits = string.split(',')
+        for split in all_splits:
+            try:
+                int_split = int(split.replace(' ', ''))
+                
+                if not 0 <= int_split <= 127:
+                    break
+                
+                self.level_splits.append(int_split)
+            except:
+                break
+        
+        if len(self.level_splits) +1 != len(self.samples):
+            sys.stderr.write("Number of LEVEL_SPLITS not coherent with number of samples\n" +
+                             "will make automatic linear splits\n")
+            
+            self.level_splits.clear()
+            split_n = len(samples) -1
+            for i in range(split_n):
+                self.level_splits.append(int(128 * (i+1) / (split_n+1) -0.5))
+                
+    def addSfzProperty(self, string):
+        self.sfz_properties += string
+        self.sfz_properties += '\n'
+            
+
         
         
 def makeNoteKey(string):
@@ -143,15 +143,20 @@ def noteplus(note, added):
         if note.lower() == note_refs[i].lower():
             return note_refs[(i + added) % 12]
     else:
-        print("note %s not recognized" % note)
+        sys.stderr.write("note %s not recognized\n" % note)
         sys.exit(1)
         
-
-
 if len(sys.argv) <= 1:
-    sys.stderr.write("Please use a config file as instrument")
+    sys.stderr.write("Please use a config file as argument\n")
     sys.exit(1)
-    
+
+if sys.argv[1] in ('-h', '--help'):
+    help_contents  = "%s is a simple script for generate SFZ instrument file with diatonic bends.\n" % sys.argv[0]
+    help_contents += "Put a config file as argument to generate an instrument.\n"
+    help_contents += "For example: %s Minor_11.diabd" % sys.argv[0]
+    print(help_contents)
+    sys.exit(0)
+
 input_file_name = sys.argv[1]
 
 try:
@@ -159,7 +164,7 @@ try:
     input_contents = input_file.read()
     input_file.close()
 except:
-    sys.stderr.write("%s is not a valid file" % input_file_name)
+    sys.stderr.write("%s is not a valid file\n" % input_file_name)
     sys.exit(1)
 
 all_bends = {
@@ -221,10 +226,13 @@ for line in input_contents.split('\n'):
                         sys.exit(1)
                         
                 elif param == "PITCH_KEYCENTER":
-                    if input_file_ranges:
-                        input_file_ranges[-1].setPitchKeycenter(makeNoteKey(value))
+                    if not input_file_ranges:
+                        input_file_ranges.append(InputFileRange())
+                    input_file_ranges[-1].setPitchKeycenter(makeNoteKey(value))
                         
                 elif param == "SAMPLES":
+                    if not input_file_ranges:
+                        input_file_ranges.append(InputFileRange())
                     reading = READING_SAMPLES
                 
                 elif param == "LEVEL_SPLITS":
@@ -268,13 +276,12 @@ for bend in all_bends:
 
 # write 12 files
 for n in range(12):
-    contents = ""
+    contents = "# SFZ file generated by diatonic_bender.py from %s\n" % input_file_name
     
     for file_range in input_file_ranges:
         contents += "\n\n\n### interval %s ________________________________________" \
                         % file_range.stringInterval()
-        
-        print(len(file_range.samples), len(file_range.level_splits))
+                    
         for bend_group in grouped_bends:
             contents += "\n\n##### bends at %s,%s ______________________________\n" \
                             % (bend_group[0][0], bend_group[0][1])
