@@ -1,12 +1,19 @@
 
 
 
+# output file names, use ${KEY_TONE} if you want one file per tone (12 files).
+
+SFZ_FILE:roxang_man.sfz
+
+
 # Choose here the tone of what you edit.
 # diatonic_bender can automaticly  make sfz files for the twelve tones.
-key_tone:A
+
+KEY_TONE:A
 
 
-# here choose where goes the note when bended (-x semitones, y semitones)
+# Here choose where goes the note when bended (-x semitones, y semitones)
+
 A : -4, 3
 A#: -3, 4
 B : -4, 3
@@ -20,32 +27,77 @@ F#: -4, 3
 G : -3, 4
 G#: -4, 3
 
-### samples folder, don't set it if samples are in same directory as sfz files.
-samples_folder:samples
 
-key_interval:c0-a4
+# here write sfz properties common to all the instrument.
+# keep an empty line after !!!
 
-# all samples to take.
-# There is currently not the possibility to set differents notes, only differents levels of the same note.
-# start with the lower sample.
-sample:ding_01.wav
-sample:ding_02.wav
-sample:ding_03.wav
-sample:ding_04.wav
-sample:ding_05.wav
-sample:ding_06.wav
-sample:ding_07.wav
-sample:ding_08.wav
-sample:ding_09.wav
-sample:ding_10.wav
-sample:ding_11.wav
-sample:ding_12.wav
-
-# output file names, use ${KEY_TONE} if you want one file per tone (12 files).
-sfz_file:roxang_man
-
-
-_____in_all_groups______:
+COMMON_PROPERTIES:
 loop_mode=one_shot
-pitch_keycenter=d3
-________________________.
+
+
+# samples folder, don't set it if samples are in same directory as sfz files.
+
+SAMPLES_FOLDER:samples
+
+--------------------------------------------------------------------
+KEY_INTERVAL:c0-a4
+PITCH_KEYCENTER:d3
+
+
+# all samples to take in this KEY_INTERVAL.
+# write from the lower to the highest sample. Keep an empty line after the last.
+
+SAMPLES:
+ding_01.wav
+ding_02.wav
+ding_03.wav
+ding_04.wav
+ding_05.wav
+ding_06.wav
+ding_07.wav
+ding_08.wav
+ding_09.wav
+ding_10.wav
+ding_11.wav
+ding_12.wav
+
+
+LEVEL_SPLITS:10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110
+
+
+INTERVAL_PROPERTIES:
+
+
+---------------------------------------------------------------------
+--------------------------------------------------------------------
+KEY_INTERVAL:a#4-b8
+PITCH_KEYCENTER:d3
+
+
+# all samples to take in this KEY_INTERVAL.
+# write from the lower to the highest sample. Keep an empty line after the last.
+
+SAMPLES:
+ding_01.wav
+ding_02.wav
+ding_03.wav
+ding_04.wav
+ding_05.wav
+ding_06.wav
+ding_07.wav
+ding_08.wav
+ding_09.wav
+ding_10.wav
+ding_11.wav
+ding_12.wav
+
+
+LEVEL_SPLITS:10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110
+
+
+INTERVAL_PROPERTIES:
+loop_mode=once
+
+
+
+
