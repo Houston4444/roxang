@@ -4,9 +4,11 @@ import os
 import sys
 
 READING_GENERAL            = 0
-READING_INSTRUMENT_OPCODES = 1
-READING_INTERVAL_OPCODES   = 2
-READING_SAMPLE_OPCODES     = 3
+READING_INSTRUMENT_BENDS   = 1
+READING_INSTRUMENT_OPCODES = 2
+READING_INTERVAL_BENDS     = 3
+READING_INTERVAL_OPCODES   = 4
+READING_SAMPLE_OPCODES     = 5
 
 FILE_EXISTS_ASK     = 0
 FILE_EXISTS_ABORT   = 1
@@ -15,6 +17,7 @@ FILE_EXISTS_ENQUEUE = 3
 
 note_refs = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 parameters = {"KEY_TONE": "A",
+              "INSTRUMENT_BENDS": "",
               "ONE_CHANNEL_PER_TONE": "false",
               "SFZ_FILE": "",
               "FILE_EXISTS_BEHAVIOUR": FILE_EXISTS_ASK,
@@ -24,7 +27,8 @@ parameters = {"KEY_TONE": "A",
               "SAMPLE_OPCODES": "",
               "VELOCITY_SPLITS": "",
               "INTERVAL_OPCODES": "",
-              "INSTRUMENT_OPCODES": ""}
+              "INSTRUMENT_OPCODES": "",
+              "INTERVAL_BENDS": ""}
 
 
 class NoteKey():
@@ -100,25 +104,22 @@ class Sample():
 
 
 class FileInterval():
-    def __init__(self, lokey=NoteKey("C", 0), hikey=NoteKey("B", 9)):
+    def __init__(self, lokey=NoteKey("C", -1), hikey=NoteKey("G", 9)):
         self.lokey = lokey
         self.hikey = hikey
         self.samples = []
         self.interval_opcodes = ""
         self.splits_done = False
+        self.bends = instrument_bends.copy()
         
     def addSample(self, filename):
-        # self.samples is list of lists which contains [filename, opcodes]
         sample = Sample(filename)
         self.samples.append(sample)
     
     def stringInterval(self):
-        return "%s-%s" % (self.lokey.toString(), self.hikey.toString())
+        return "%s;%s" % (self.lokey.toString(), self.hikey.toString())
         
-    def setVelocitySplits(self, string):
-        if self.splits_done:
-            return
-        
+    def setVelocitySplits(self, string=''):
         velocity_splits = [0]
         
         all_splits = string.split(',')
@@ -163,6 +164,62 @@ class FileInterval():
         
         self.samples[-1].addOpcode(opcode)
         return True
+    
+    def setBend(self, note, bend_down, bend_up):
+        self.bends[note] = (bend_down, bend_up)
+        
+    def getAllContents(self):
+        if not self.splits_done:
+            self.setVelocitySplits()
+        
+        grouped_bends = []
+        
+        for bend in self.bends:
+            for bend_group in grouped_bends:
+                if bend_group[0] == self.bends[bend]:
+                    bend_group.append(bend)
+                    break
+            else:
+                grouped_bends.append([self.bends[bend], bend])
+        
+        contents = "\n\n\n### interval %s;%s ________________________________________" \
+                        % (self.lokey.toString(), self.hikey.toString())
+                    
+        for bend_group in grouped_bends:
+            contents += "\n\n##### bends at %s,%s ______________________________\n" \
+                            % (bend_group[0][0], bend_group[0][1])
+            
+            for sample in self.samples:
+                contents += "\n<group>\n"
+                contents += instrument_opcodes
+                if not instrument_opcodes.endswith('\n'):
+                    contents += "\n"
+                
+                if parameters['ONE_CHANNEL_PER_TONE'] == 'true':
+                    contents += "lochan=%i hichan=%i\n" % (n+1, n+1)
+                
+                contents += self.interval_opcodes
+                
+                contents += "bend_down=%i\n" % (bend_group[0][0] * 100)
+                contents += "bend_up=%i\n"   % (bend_group[0][1] * 100)
+                
+                contents += sample.getAllContents()
+                
+                for i in range(11):
+                    for note in bend_group[1:]:
+                        note_key = NoteKey(note, i-1).add(n)
+                        if self.lokey <= note_key <= self.hikey:
+                            key_str = note_key.toString()
+                            
+                            # just for alignment
+                            spaces = ""
+                            for j in range(4 - len(key_str)):
+                                spaces += " "
+                                
+                            contents += "<region> lokey=%s%s hikey=%s\n" % (key_str, spaces, key_str)
+        
+        return contents
+        
             
 
 def makeNoteKey(string):
@@ -210,9 +267,9 @@ def writeSfzFile(sfz_file, contents):
     sfz_file = getSfzFileName(key_tone)
         
     if parameters['FILE_EXISTS_BEHAVIOUR'] == FILE_EXISTS_ASK and os.path.exists(sfz_file):
-        question = "%s already exists.\n\
-Type Q to abort, E to erase existing file,\n\
-or W to write at the the end of the existing file:" % sfz_file
+        question = "%s already exists.\n" % sfz_file
+        question+= "Type Q to abort, E to erase existing file,\n"
+        question+= "or W to write at the the end of the existing file:"
 
         sys.stdout.write(question)
         answer = sys.stdin.readline().replace('\n', '')
@@ -265,7 +322,7 @@ except:
     sys.stderr.write("%s is not a valid file\n" % input_file_name)
     sys.exit(1)
 
-all_bends = {
+instrument_bends = {
     "C" : (-1, 2),
     "C#": (-3, 1),
     "D" : (-2, 2),
@@ -325,6 +382,12 @@ for line in input_contents.split('\n'):
                     file_intervals[-1].addIntervalOpcode(value)
                 reading = READING_INTERVAL_OPCODES
             
+            elif param == "INSTRUMENT_BENDS":
+                reading = READING_INSTRUMENT_BENDS
+            
+            elif param == "INTERVAL_BENDS":
+                reading = READING_INTERVAL_BENDS
+            
             elif param == "INSTRUMENT_OPCODES":
                 if value:
                     instrument_opcodes += value
@@ -345,7 +408,7 @@ for line in input_contents.split('\n'):
                 
             break
     else:
-        if reading == READING_GENERAL:
+        if reading in (READING_INSTRUMENT_BENDS, READING_INTERVAL_BENDS):
             for note in note_refs:
                 if line.partition(':')[0].replace(' ', '') == note:
                     note_contents = line.partition(':')[2]
@@ -357,7 +420,11 @@ for line in input_contents.split('\n'):
                     except:
                         sys.stderr.write("invalid bends for note %s, will take default values" % note)
                     
-                    all_bends[note] = (bdown, bup)
+                    if reading == READING_INSTRUMENT_BENDS:
+                        instrument_bends[note] = (bdown, bup)
+                    else:
+                        if file_intervals:
+                            file_intervals[-1].setBend(note, bdown, bup)
                     break
             
         elif reading == READING_INSTRUMENT_OPCODES:
@@ -370,16 +437,11 @@ for line in input_contents.split('\n'):
         elif reading == READING_SAMPLE_OPCODES:
             if file_intervals:
                 file_intervals[-1].addOpcodeToLastSample(line)
-
-#group bend notes
-grouped_bends = []
-for bend in all_bends:
-    for bend_group in grouped_bends:
-        if bend_group[0] == all_bends[bend]:
-            bend_group.append(bend)
-            break
-    else:
-        grouped_bends.append([all_bends[bend], bend])
+                
+if not parameters['SFZ_FILE']:
+    sys.stderr.write("No SFZ_FILE specified. Abort.\n")
+    sys.exit(1)
+    
 
 contents = ""
 
@@ -397,41 +459,7 @@ for n in range(12):
         contents += "\n\n## Tone %s, channel %i ___________________________________________\n" % (this_tone.note, n+1)
     
     for file_interval in file_intervals:
-        contents += "\n\n\n### interval %s ________________________________________" \
-                        % file_interval.stringInterval()
-                    
-        for bend_group in grouped_bends:
-            contents += "\n\n##### bends at %s,%s ______________________________\n" \
-                            % (bend_group[0][0], bend_group[0][1])
-            
-            for sample in file_interval.samples:
-                contents += "\n<group>\n"
-                contents += instrument_opcodes
-                if not instrument_opcodes.endswith('\n'):
-                    contents += "\n"
-                
-                if one_channel_per_tone:
-                    contents += "lochan=%i hichan=%i\n" % (n+1, n+1)
-                
-                contents += file_interval.interval_opcodes
-                
-                contents += "bend_down=%i\n" % (bend_group[0][0] * 100)
-                contents += "bend_up=%i\n"   % (bend_group[0][1] * 100)
-                
-                contents += sample.getAllContents()
-                
-                for i in range(11):
-                    for note in bend_group[1:]:
-                        note_key = NoteKey(note, i-1).add(n)
-                        if file_interval.lokey <= note_key <= file_interval.hikey:
-                            key_str = note_key.toString()
-                            
-                            # just for alignment
-                            spaces = ""
-                            for j in range(4 - len(key_str)):
-                                spaces += " "
-                                
-                            contents += "<region> lokey=%s%s hikey=%s\n" % (key_str, spaces, key_str)
+        contents += file_interval.getAllContents()
     
     if one_channel_per_tone:
         if n == 11:
@@ -439,7 +467,6 @@ for n in range(12):
             writeSfzFile(sfz_file, contents)
         else:
             continue
-    
     elif "${KEY_TONE}" in parameters["SFZ_FILE"]:
         base_tone = NoteKey(key_tone, 0)
         this_tone = base_tone.add(n)

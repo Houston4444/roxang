@@ -9,8 +9,8 @@
 KEY_TONE:A
 
 
-
 # Here choose where goes the note when bent with the pitchwheel(-x semitones, y semitones)
+INSTRUMENT_BENDS:
 A : -4, 3
 A#: -3, 4
 B : -4, 3
@@ -24,14 +24,6 @@ F#: -4, 3
 G : -3, 4
 G#: -4, 3
 
-# set it on 'true' if you want want one midi channel per tone
-ONE_CHANNEL_PER_TONE:false
-
-# output file names, use ${KEY_TONE} if you want one file per tone (12 files).
-SFZ_FILE:roxang_man_${KEY_TONE}.sfz
-
-# What to do if file exists (0: Ask, 1: Abort, 2: Erase, 3: Write at the end of files)
-FILE_EXISTS_BEHAVIOUR:1
 
 # here write sfz properties common to all the instrument.
 INSTRUMENT_OPCODES:
@@ -40,8 +32,22 @@ amp_veltrack=60
 pitchlfo_freq=5
 pitchlfo_depthcc1=200
 
+
+# set it on 'true' if you want want one midi channel per key tone (one file generated)
+ONE_CHANNEL_PER_TONE:false
+
+
+# output file names, use ${KEY_TONE} if you want one file per key tone (12 files).
+SFZ_FILE:roxang_man.sfz
+
+
+# What to do if sfz file already exists (0: Ask, 1: Abort, 2: Erase, 3: Write at the end of file )
+FILE_EXISTS_BEHAVIOUR:0
+
+
 # samples folder, don't set it if samples are in same directory as sfz files.
 SAMPLES_FOLDER:Samples
+
 
 --------------------------------------------------------------------
 # Interval of keys for samples
@@ -71,7 +77,7 @@ SAMPLE:ding_10.wav
 SAMPLE:ding_11.wav
 
 
-# Velocity splits between samples
+# Velocity splits between samples, if this is empty, this will be automaticaly generated
 VELOCITY_SPLITS:20, 30, 40, 50, 60, 70, 80, 90, 100, 113
 
 
