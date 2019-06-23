@@ -1,0 +1,12 @@
+
+
+INSTRUMENT_OPCODES:
+loop_mode=one_shot
+
+SFZ_FILE:roxang_simple_Aminor.sfz
+SAMPLES_FOLDER:Samples
+
+SAMPLE:ding_01.wav
+SAMPLE:ding_03.wav
+SAMPLE:ding_07.wav
+SAMPLE:ding_11.wav

@@ -11,18 +11,18 @@ KEY_TONE:A
 
 # Here choose where goes the note when bent with the pitchwheel(-x semitones, y semitones)
 INSTRUMENT_BENDS:
-A : -4, 3
-A#: -3, 4
-B : -4, 3
-C : -3, 4
-C#: -4, 3
-D : -3, 3
-D#: -4, 2
-E : -4, 3
+A : -4, 5
+A#: -5, 4
+B : -6, 3
+C : -3, 5
+C#: -4, 4
+D : -5, 3
+D#: -6, 6
+E : -7, 5
 F : -3, 4
 F#: -4, 3
-G : -3, 4
-G#: -4, 3
+G : -5, 7
+G#: -3, 6
 
 
 # here write sfz properties common to all the instrument.
@@ -38,7 +38,7 @@ ONE_CHANNEL_PER_TONE:false
 
 
 # output file names, use ${KEY_TONE} if you want one file per key tone (12 files).
-SFZ_FILE:roxang_man_${KEY_TONE}minor.sfz
+SFZ_FILE:all_to_rela.sfz
 
 
 # What to do if sfz file already exists (0: Ask, 1: Abort, 2: Erase, 3: Write at the end of file )
@@ -51,7 +51,7 @@ SAMPLES_FOLDER:Samples
 
 --------------------------------------------------------------------
 # Interval of keys for samples
-KEY_INTERVAL:c-1,c3
+KEY_INTERVAL:c-1,g9
 
 
 # SFZ properties common to this interval
@@ -83,29 +83,3 @@ VELOCITY_SPLITS:20, 30, 40, 50, 60, 70, 80, 90, 100, 113
 
 
 ---------------------------------------------------------------------
-# Interval of keys for samples
-KEY_INTERVAL:c#3,g9
-
-INTERVAL_OPCODES:
-pitch_keycenter=d3
-
-INTERVAL_BENDS:
-G : -5, 4
-
-# all samples to take in this KEY_INTERVAL.
-# write them from the lower to the highest sample.
-SAMPLE:ding_01.wav
-SAMPLE:ding_02.wav
-SAMPLE:ding_03.wav
-SAMPLE:ding_04.wav
-SAMPLE:ding_05.wav
-SAMPLE:ding_06.wav
-SAMPLE:ding_07.wav
-SAMPLE:ding_08.wav
-SAMPLE:ding_09.wav
-SAMPLE:ding_10.wav
-SAMPLE:ding_11.wav
-
-
-# Velocity splits between samples, if this is empty, this will be automaticaly generated
-VELOCITY_SPLITS:20, 30, 40, 50, 60, 70, 80, 90, 100, 113
