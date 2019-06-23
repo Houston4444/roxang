@@ -9,11 +9,14 @@
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
 sample=Samples\ding_01.wav
 useless_opcode=50
+lovel=0
 hivel=19
 <region> lokey=c-1  hikey=c-1
 <region> lokey=f-1  hikey=f-1
@@ -62,6 +65,8 @@ hivel=19
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -115,6 +120,8 @@ hivel=29
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -168,6 +175,8 @@ hivel=39
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -221,6 +230,8 @@ hivel=49
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -274,6 +285,8 @@ hivel=59
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -327,6 +340,8 @@ hivel=69
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -380,6 +395,8 @@ hivel=79
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -433,6 +450,8 @@ hivel=89
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -486,6 +505,8 @@ hivel=99
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
@@ -539,11 +560,14 @@ hivel=112
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=400
 sample=Samples\ding_11.wav
 lovel=113
+hivel=127
 <region> lokey=c-1  hikey=c-1
 <region> lokey=f-1  hikey=f-1
 <region> lokey=g-1  hikey=g-1
@@ -594,11 +618,14 @@ lovel=113
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
 sample=Samples\ding_01.wav
 useless_opcode=50
+lovel=0
 hivel=19
 <region> lokey=c#-1 hikey=c#-1
 <region> lokey=e-1  hikey=e-1
@@ -667,6 +694,8 @@ hivel=19
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -740,6 +769,8 @@ hivel=29
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -813,6 +844,8 @@ hivel=39
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -886,6 +919,8 @@ hivel=49
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -959,6 +994,8 @@ hivel=59
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -1032,6 +1069,8 @@ hivel=69
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -1105,6 +1144,8 @@ hivel=79
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -1178,6 +1219,8 @@ hivel=89
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -1251,6 +1294,8 @@ hivel=99
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
@@ -1324,11 +1369,14 @@ hivel=112
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=300
 sample=Samples\ding_11.wav
 lovel=113
+hivel=127
 <region> lokey=c#-1 hikey=c#-1
 <region> lokey=e-1  hikey=e-1
 <region> lokey=f#-1 hikey=f#-1
@@ -1399,11 +1447,14 @@ lovel=113
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
 sample=Samples\ding_01.wav
 useless_opcode=50
+lovel=0
 hivel=19
 <region> lokey=d-1  hikey=d-1
 <region> lokey=d0   hikey=d0
@@ -1420,6 +1471,8 @@ hivel=19
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1441,6 +1494,8 @@ hivel=29
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1462,6 +1517,8 @@ hivel=39
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1483,6 +1540,8 @@ hivel=49
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1504,6 +1563,8 @@ hivel=59
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1525,6 +1586,8 @@ hivel=69
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1546,6 +1609,8 @@ hivel=79
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1567,6 +1632,8 @@ hivel=89
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1588,6 +1655,8 @@ hivel=99
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
@@ -1609,11 +1678,14 @@ hivel=112
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-300
 bend_up=300
 sample=Samples\ding_11.wav
 lovel=113
+hivel=127
 <region> lokey=d-1  hikey=d-1
 <region> lokey=d0   hikey=d0
 <region> lokey=d1   hikey=d1
@@ -1632,11 +1704,14 @@ lovel=113
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
 sample=Samples\ding_01.wav
 useless_opcode=50
+lovel=0
 hivel=19
 <region> lokey=d#-1 hikey=d#-1
 <region> lokey=d#0  hikey=d#0
@@ -1653,6 +1728,8 @@ hivel=19
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1674,6 +1751,8 @@ hivel=29
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1695,6 +1774,8 @@ hivel=39
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1716,6 +1797,8 @@ hivel=49
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1737,6 +1820,8 @@ hivel=59
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1758,6 +1843,8 @@ hivel=69
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1779,6 +1866,8 @@ hivel=79
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1800,6 +1889,8 @@ hivel=89
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1821,6 +1912,8 @@ hivel=99
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
@@ -1842,11 +1935,14 @@ hivel=112
 <group>
 loop_mode=one_shot
 amp_veltrack=60
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 pitch_keycenter=d3
 bend_down=-400
 bend_up=200
 sample=Samples\ding_11.wav
 lovel=113
+hivel=127
 <region> lokey=d#-1 hikey=d#-1
 <region> lokey=d#0  hikey=d#0
 <region> lokey=d#1  hikey=d#1

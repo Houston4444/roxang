@@ -2,21 +2,28 @@
 
 import sys
 
-READING_GENERAL = 0
+READING_GENERAL            = 0
 READING_INSTRUMENT_OPCODES = 1
-READING_INTERVAL_OPCODES = 2
-READING_SAMPLE_OPCODES = 3
+READING_INTERVAL_OPCODES   = 2
+READING_SAMPLE_OPCODES     = 3
+
+FILE_EXISTS_ASK     = 0
+FILE_EXISTS_ABORT   = 1
+FILE_EXISTS_ERASE   = 2
+FILE_EXISTS_ENQUEUE = 3
 
 note_refs = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
-parameters = {"KEY_TONE": "A", 
+parameters = {"KEY_TONE": "A",
+              "SFZ_FILE": "",
+              "FILE_EXISTS_BEHAVIOUR": FILE_EXISTS_ASK,
               "SAMPLES_FOLDER": "", 
-              "KEY_INTERVAL": "c0-b9",
+              "KEY_INTERVAL": "c-1,g9",
               "SAMPLE": "",
               "SAMPLE_OPCODES": "",
               "VELOCITY_SPLITS": "",
               "INTERVAL_OPCODES": "",
-              "SFZ_FILE": "",
               "INSTRUMENT_OPCODES": ""}
+
 
 class NoteKey():
     def __init__(self, note, octave):
@@ -61,45 +68,87 @@ class NoteKey():
         else:
             raise BaseException("note %s not in note_refs")
 
+class Sample():
+    opcodes = ""
+    lovel = 0
+    hivel = 127
+    
+    def __init__(self, filename):
+        self.filename = filename
+        
+    def addOpcode(self, opcode):
+        self.opcodes += "%s\n" % opcode
+        
+    def getAllContents(self):
+        contents = ""
+        
+        if parameters["SAMPLES_FOLDER"]:
+            contents += "sample=%s\%s\n" % (parameters["SAMPLES_FOLDER"], self.filename)
+        else:
+            contents += "sample=%s\n" % self.filename
+            
+        if self.opcodes:
+            contents += self.opcodes
+            
+        contents += "lovel=%i\n" % self.lovel
+        contents += "hivel=%i\n" % self.hivel
+        
+        return contents
 
 class FileInterval():
     def __init__(self, lokey=NoteKey("C", 0), hikey=NoteKey("B", 9)):
         self.lokey = lokey
         self.hikey = hikey
         self.samples = []
-        self.velocity_splits = []
         self.interval_opcodes = ""
+        self.splits_done = False
         
-    def addSample(self, sample):
-        # self.samples is list of lists which contains [filename, opcodes] 
-        self.samples.append([sample, ""])
+    def addSample(self, filename):
+        # self.samples is list of lists which contains [filename, opcodes]
+        sample = Sample(filename)
+        self.samples.append(sample)
     
     def stringInterval(self):
         return "%s-%s" % (self.lokey.toString(), self.hikey.toString())
         
     def setVelocitySplits(self, string):
-        self.velocity_splits.clear()
+        if self.splits_done:
+            return
+        
+        velocity_splits = [0]
         
         all_splits = string.split(',')
         for split in all_splits:
             try:
                 int_split = int(split.replace(' ', ''))
                 
-                if not 0 <= int_split <= 127:
-                    break
+                if not 0 < int_split < 127:
+                    continue
                 
-                self.velocity_splits.append(int_split)
+                velocity_splits.append(int_split)
             except:
                 break
         
-        if len(self.velocity_splits) +1 != len(self.samples):
+        velocity_splits.append(128)
+        velocity_splits.sort()
+        
+        if len(velocity_splits) != len(self.samples) +1:
             sys.stderr.write("Number of VELOCITY_SPLITS not coherent with number of samples\n" +
                              "will make automatic linear splits\n")
             
-            self.velocity_splits.clear()
+            velocity_splits = [0]
+            
             split_n = len(self.samples) -1
             for i in range(split_n):
-                self.velocity_splits.append(int(128 * (i+1) / (split_n+1) -0.5))
+                velocity_splits.append(int(128 * (i+1) / (split_n+1) -0.5))
+                
+            velocity_splits.append(128)
+        
+        for i in range(len(self.samples)):
+            self.samples[i].lovel = velocity_splits[i] 
+            self.samples[i].hivel = velocity_splits[i+1] -1
+        
+        self.splits_done = True
                 
     def addIntervalOpcode(self, string):
         self.interval_opcodes += "%s\n" % string
@@ -108,7 +157,7 @@ class FileInterval():
         if not self.samples:
             return False
         
-        self.samples[-1][1] += "%s\n" % opcode
+        self.samples[-1].addOpcode(opcode)
         return True
             
 
@@ -236,6 +285,12 @@ for line in input_contents.split('\n'):
                     instrument_opcodes += value
                     instrument_opcodes += "\n"
                 reading = READING_INSTRUMENT_OPCODES
+                
+            elif param == "FILE_EXISTS_BEHAVIOUR":
+                try:
+                    int_param = int(param)
+                except:
+                    pass
             else:
                 parameters[param] = value
                 
@@ -289,7 +344,7 @@ for n in range(12):
             contents += "\n\n##### bends at %s,%s ______________________________\n" \
                             % (bend_group[0][0], bend_group[0][1])
             
-            for i in range(len(file_interval.samples)):
+            for sample in file_interval.samples:
                 contents += "\n<group>\n"
                 contents += instrument_opcodes
                 if not instrument_opcodes.endswith('\n'):
@@ -300,33 +355,26 @@ for n in range(12):
                 contents += "bend_down=%i\n" % (bend_group[0][0] * 100)
                 contents += "bend_up=%i\n"   % (bend_group[0][1] * 100)
                 
-                if parameters["SAMPLES_FOLDER"]:
-                    contents += "sample=%s\%s\n" % (parameters["SAMPLES_FOLDER"], file_interval.samples[i][0])
-                else:
-                    contents += "sample=%s\n" % file_interval.samples[i][0]
-                    
-                if file_interval.samples[i][1]:
-                    contents += file_interval.samples[i][1]
-                    
-                if i != 0:
-                    contents += "lovel=%i\n" % file_interval.velocity_splits[i-1]
-                if i != len(file_interval.samples) - 1:
-                    contents += "hivel=%i\n" % (file_interval.velocity_splits[i] -1)
+                contents += sample.getAllContents()
                 
-                for j in range(11):
+                for i in range(11):
                     for note in bend_group[1:]:
-                        note_key = NoteKey(note, j-1).add(n)
+                        note_key = NoteKey(note, i-1).add(n)
                         if file_interval.lokey <= note_key <= file_interval.hikey:
                             key_str = note_key.toString()
+                            
+                            # just for alignment
                             spaces = ""
-                            for i in range(4 - len(key_str)):
+                            for j in range(4 - len(key_str)):
                                 spaces += " "
                                 
                             contents += "<region> lokey=%s%s hikey=%s\n" % (key_str, spaces, key_str)
     
     if "${KEY_TONE}" in parameters["SFZ_FILE"]:
-        file = open(parameters["SFZ_FILE"].replace("${KEY_TONE}", 
-                                                   noteplus(parameters["KEY_TONE"], n)), 'w')
+        base_tone = NoteKey(parameters["KEY_TONE"], 0)
+        this_tone = base_tone.add(n)
+        
+        file = open(parameters["SFZ_FILE"].replace("${KEY_TONE}", this_tone.note), 'w')
         file.write(contents)
         file.close()
     else:

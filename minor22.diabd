@@ -27,12 +27,15 @@ G#: -4, 3
 # output file names, use ${KEY_TONE} if you want one file per tone (12 files).
 SFZ_FILE:roxang_man.sfz
 
+# What to do if file exists (0: Ask, 1: Abort, 2: Erase, 3: Write at the end of files)
+FILE_EXISTS_BEHAVIOUR:0
 
 # here write sfz properties common to all the instrument.
 INSTRUMENT_OPCODES:
 loop_mode=one_shot
 amp_veltrack=60
-
+pitchlfo_freq=5
+pitchlfo_depthcc1=200
 
 # samples folder, don't set it if samples are in same directory as sfz files.
 SAMPLES_FOLDER:Samples
