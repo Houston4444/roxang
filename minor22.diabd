@@ -9,6 +9,7 @@
 KEY_TONE:A
 
 
+
 # Here choose where goes the note when bent with the pitchwheel(-x semitones, y semitones)
 A : -4, 3
 A#: -3, 4
@@ -23,12 +24,14 @@ F#: -4, 3
 G : -3, 4
 G#: -4, 3
 
+# set it on 'true' if you want want one midi channel per tone
+ONE_CHANNEL_PER_TONE:false
 
 # output file names, use ${KEY_TONE} if you want one file per tone (12 files).
-SFZ_FILE:roxang_man.sfz
+SFZ_FILE:roxang_man_${KEY_TONE}.sfz
 
 # What to do if file exists (0: Ask, 1: Abort, 2: Erase, 3: Write at the end of files)
-FILE_EXISTS_BEHAVIOUR:0
+FILE_EXISTS_BEHAVIOUR:1
 
 # here write sfz properties common to all the instrument.
 INSTRUMENT_OPCODES:
